@@ -11,6 +11,7 @@
 #import "FLAnimatedImage.h"
 #import "FLAnimatedImageView.h"
 #import "DebugView.h"
+#import "FLAnimatedImageView+WebCache.h"
 
 
 @interface RootViewController ()
@@ -71,9 +72,19 @@
     self.imageView2.frame = CGRectMake(0.0, 577.0, 379.0, 447.0);
     
     NSURL *url2 = [NSURL URLWithString:@"http://raphaelschaad.com/static/nyan.gif"];
-    NSData *data2 = [NSData dataWithContentsOfURL:url2];
-    FLAnimatedImage *animatedImage2 = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data2];
-    self.imageView2.animatedImage = animatedImage2;
+    //NSData *data2 = [NSData dataWithContentsOfURL:url2];
+    //FLAnimatedImage *animatedImage2 = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data2];
+    //self.imageView2.animatedImage = animatedImage2;
+    __block RootViewController *aself = self;
+    [self.imageView2 setImageWithURL:url2 animatedsuccess:^(UIImage *image, FLAnimatedImage *animatedImage, BOOL cached) {
+        aself.imageView2.debug_delegate = aself.debugView2;
+        animatedImage.debug_delegate = aself.debugView2;
+        aself.debugView2.imageView = aself.imageView2;
+        aself.debugView2.image = animatedImage;
+        aself.imageView2.userInteractionEnabled = YES;
+    } failure:^(NSError *error) {
+
+    }];
     
     // 3
     if (!self.imageView3) {
@@ -85,10 +96,19 @@
     self.imageView3.frame = CGRectMake(389.0, 577.0, 379.0, 447.0);
     
     NSURL *url3 = [NSURL URLWithString:@"http://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"];
-    NSData *data3 = [NSData dataWithContentsOfURL:url3];
-    FLAnimatedImage *animatedImage3 = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data3];
-    self.imageView3.animatedImage = animatedImage3;
-    
+    //NSData *data3 = [NSData dataWithContentsOfURL:url3];
+    //FLAnimatedImage *animatedImage3 = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data3];
+    //self.imageView3.animatedImage = animatedImage3;
+    [self.imageView3 setImageWithURL:url3 animatedsuccess:^(UIImage *image, FLAnimatedImage *animatedImage, BOOL cached) {
+        aself.imageView3.debug_delegate = aself.debugView3;
+        animatedImage.debug_delegate = aself.debugView3;
+        aself.debugView3.imageView = aself.imageView3;
+        aself.debugView3.image = animatedImage;
+        aself.imageView3.userInteractionEnabled = YES;
+    } failure:^(NSError *error) {
+
+    }];
+
     // ... that's it!
     
     
@@ -100,17 +120,17 @@
     self.debugView1.image = animatedImage1;
     self.imageView1.userInteractionEnabled = YES;
     
-    self.imageView2.debug_delegate = self.debugView2;
-    animatedImage2.debug_delegate = self.debugView2;
-    self.debugView2.imageView = self.imageView2;
-    self.debugView2.image = animatedImage2;
-    self.imageView2.userInteractionEnabled = YES;
+//    self.imageView2.debug_delegate = self.debugView2;
+//    animatedImage2.debug_delegate = self.debugView2;
+//    self.debugView2.imageView = self.imageView2;
+//    self.debugView2.image = animatedImage2;
+//    self.imageView2.userInteractionEnabled = YES;
 
-    self.imageView3.debug_delegate = self.debugView3;
-    animatedImage3.debug_delegate = self.debugView3;
-    self.debugView3.imageView = self.imageView3;
-    self.debugView3.image = animatedImage3;
-    self.imageView3.userInteractionEnabled = YES;
+//    self.imageView3.debug_delegate = self.debugView3;
+//    animatedImage3.debug_delegate = self.debugView3;
+//    self.debugView3.imageView = self.imageView3;
+//    self.debugView3.image = animatedImage3;
+//    self.imageView3.userInteractionEnabled = YES;
 }
 
 
