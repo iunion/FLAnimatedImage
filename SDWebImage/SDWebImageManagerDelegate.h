@@ -41,6 +41,7 @@
 - (void)webImageManager:(SDWebImageManager *)imageManager didFinishWithImage:(UIImage *)image forURL:(NSURL *)url;
 - (void)webImageManager:(SDWebImageManager *)imageManager didFinishWithImage:(UIImage *)image;
 
+// add by DJ for animatedImage
 - (void)webImageManager:(SDWebImageManager *)imageManager didFinishWithFLAnimatedImage:(FLAnimatedImage *)image forURL:(NSURL *)url userInfo:(NSDictionary *)info;
 
 /**

@@ -20,15 +20,17 @@ typedef enum
     // add by DJ
     SDWebImageProgressiveShow = 1 << 4,
     SDWebImagePlaceholderImageDelay = 1 << 5,
+    // for animatedImage
     SDWebImageFLAnimatedImage = 1 << 6
 } SDWebImageOptions;
 
 #if NS_BLOCKS_AVAILABLE
 typedef void(^SDWebImageSuccessBlock)(UIImage *image, BOOL cached);
 // add by DJ
-typedef void(^SDWebAnimatedImageSuccessBlock)(UIImage *image, FLAnimatedImage *animatedImage, BOOL cached);
 typedef void(^SDWebImageProgressBlock)(NSUInteger receivedSize, long long expectedSize);
 typedef void(^SDWebImageFailureBlock)(NSError *error);
+// for animatedImage
+typedef void(^SDWebAnimatedImageSuccessBlock)(UIImage *image, FLAnimatedImage *animatedImage, BOOL cached);
 #endif
 
 /**
@@ -160,7 +162,7 @@ typedef NSString *(^CacheKeyFilter)(NSURL *url);
 - (void)downloadWithURL:(NSURL *)url delegate:(id)delegate options:(SDWebImageOptions)options userInfo:(NSDictionary *)info progress:(SDWebImageProgressBlock)progress success:(SDWebImageSuccessBlock)success failure:(SDWebImageFailureBlock)failure;
 
 
-// add by DJ
+// add by DJ for animatedImage
 - (void)downloadWithURL:(NSURL *)url delegate:(id)delegate options:(SDWebImageOptions)options progress:(SDWebImageProgressBlock)progress animatedsuccess:(SDWebAnimatedImageSuccessBlock)success failure:(SDWebImageFailureBlock)failure;
 - (void)downloadWithURL:(NSURL *)url delegate:(id)delegate options:(SDWebImageOptions)options userInfo:(NSDictionary *)userInfo animatedsuccess:(SDWebAnimatedImageSuccessBlock)success failure:(SDWebImageFailureBlock)failure;
 - (void)downloadWithURL:(NSURL *)url delegate:(id)delegate options:(SDWebImageOptions)options userInfo:(NSDictionary *)userInfo progress:(SDWebImageProgressBlock)progress animatedsuccess:(SDWebAnimatedImageSuccessBlock)success failure:(SDWebImageFailureBlock)failure;

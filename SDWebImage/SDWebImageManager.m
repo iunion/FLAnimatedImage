@@ -225,6 +225,7 @@ static SDWebImageManager *instance;
 }
 
 
+// add by DJ for animatedImage
 - (void)downloadWithURL:(NSURL *)url delegate:(id)delegate options:(SDWebImageOptions)options progress:(SDWebImageProgressBlock)progress animatedsuccess:(SDWebAnimatedImageSuccessBlock)success failure:(SDWebImageFailureBlock)failure
 {
     [self downloadWithURL:url delegate:delegate options:options userInfo:nil progress:progress animatedsuccess:success failure:failure];
@@ -235,7 +236,6 @@ static SDWebImageManager *instance;
     [self downloadWithURL:url delegate:delegate options:options userInfo:nil progress:nil animatedsuccess:success failure:failure];
 }
 
-// add by DJ
 - (void)downloadWithURL:(NSURL *)url delegate:(id)delegate options:(SDWebImageOptions)options userInfo:(NSDictionary *)userInfo progress:(SDWebImageProgressBlock)progress animatedsuccess:(SDWebAnimatedImageSuccessBlock)success failure:(SDWebImageFailureBlock)failure
 {
     // repeated logic from above due to requirement for backwards compatability for iOS versions without blocks
@@ -389,9 +389,14 @@ static SDWebImageManager *instance;
 
     if ([imageData sd_isGIF])
     {
+        // add by DJ for animatedImage
         if (options & SDWebImageFLAnimatedImage)
         {
             sAnimatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:imageData];
+            if (!sAnimatedImage)
+            {
+                sImage = [UIImage sd_animatedGIFWithData:imageData];
+            }
         }
         else
         {
@@ -414,6 +419,7 @@ static SDWebImageManager *instance;
     {
         ((void ( *)(id, SEL, id, id, id))objc_msgSend)(delegate, @selector(webImageManager:didFinishWithImage:forURL:), self, image, url);
     }
+    // add by DJ for animatedImage
     if (sAnimatedImage)
     {
         if ([delegate respondsToSelector:@selector(webImageManager:didFinishWithFLAnimatedImage:forURL:userInfo:)])
@@ -441,6 +447,7 @@ static SDWebImageManager *instance;
         SDWebImageSuccessBlock success = [info objectForKey:@"success"];
         success(image, YES);
     }
+    // add by DJ for animatedImage
     if ([info objectForKey:@"animatedsuccess"])
     {
         SDWebAnimatedImageSuccessBlock success = [info objectForKey:@"animatedsuccess"];
@@ -644,9 +651,14 @@ static SDWebImageManager *instance;
 
             if ([imageData sd_isGIF])
             {
+                // add by DJ for animatedImage
                 if (options & SDWebImageFLAnimatedImage)
                 {
                     sAnimatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:imageData];
+                    if (!sAnimatedImage)
+                    {
+                        sImage = [UIImage sd_animatedGIFWithData:imageData];
+                    }
                 }
                 else
                 {
@@ -672,6 +684,7 @@ static SDWebImageManager *instance;
                 {
                     ((void ( *)(id, SEL, id, id, id))objc_msgSend)(delegate, @selector(webImageManager:didFinishWithImage:forURL:), self, image, downloader.url);
                 }
+                // add by DJ for animatedImage
                 if (sAnimatedImage)
                 {
                     if ([delegate respondsToSelector:@selector(webImageManager:didFinishWithFLAnimatedImage:forURL:userInfo:)])
@@ -699,6 +712,7 @@ static SDWebImageManager *instance;
                     SDWebImageSuccessBlock success = [info objectForKey:@"success"];
                     success(image, NO);
                 }
+                // add by DJ for animatedImage
                 if ([info objectForKey:@"animatedsuccess"])
                 {
                     SDWebAnimatedImageSuccessBlock success = [info objectForKey:@"animatedsuccess"];
