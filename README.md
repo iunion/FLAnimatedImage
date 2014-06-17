@@ -1,3 +1,5 @@
+## This Category just for test. Don't use it in your app.
+
 FLAnimatedImage is a performant animated GIF engine for iOS:
 
 - Plays multiple GIFs simultaneously with a playback speed comparable to desktop browsers
